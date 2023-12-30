@@ -11,7 +11,8 @@ import BookContext from "../Context/BookContext";
 import axios from "axios";
 
 const Nav = () => {
-  const {text, setText, setBooks, setSearchClicked} = useContext(BookContext);
+  const { text, setText, setBooks, setSearchClicked, setSelectedBook } =
+    useContext(BookContext);
   // console.log(text);
 
   async function fetchBooks(e) {
@@ -26,12 +27,13 @@ const Nav = () => {
           },
         }
       );
+      setSelectedBook("");
       setBooks(response.data.items);
     } catch (error) {
       console.log(error);
     }
   }
-  
+
   return (
     <nav>
       <div className="left-nav">
@@ -40,10 +42,14 @@ const Nav = () => {
       </div>
       <form className="mid-nav" onSubmit={(e) => fetchBooks(e)}>
         <div className="search-bar">
-          <FaSearch className="search-icon"/>
-          <input onChange={(e) => setText(e.target.value)} value={text} placeholder="Search for the book you want and read it now... Sherlock Holmes, Harry Pot..." />
+          <FaSearch className="search-icon" />
+          <input
+            onChange={(e) => setText(e.target.value)}
+            value={text}
+            placeholder="Search for the book you want and read it now... Sherlock Holmes, Harry Pot..."
+          />
         </div>
-        <button>Search</button>
+        <button className="search-btn">Search</button>
       </form>
       <div className="right-nav">
         <img src={Book} alt="Book" />
